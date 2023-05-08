@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<head>
+    <title> Results </title>
+</head>
+
+<body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+    <script>
+
+    col = 0
+    
+    function update() {
+        $.get("/update", function(data) {
+            s = data.split("###")
+            l = 30
+            for (c=0; c<s.length; c++) {
+                e = s[c].split(";")
+                if (col == 0) {
+                    sty1 = "color:grey; "
+                }
+                else
+                {
+                    sty1 = "color:darkblue; "
+                }
+                if (e[2] == "TODAY") {
+                    e.splice(2,1)
+                    sty1 = "color:green; "
+                    col = 1
+                }
+                style = sty1 + "font-family:inter; position:absolute; left:" + String(l) + "px; top:"
+                p = 20
+                for (i=0; i<s[c].length; i++) {
+                    div = document.createElement("div")
+                    id = "a" + String(c) + String(i)
+                    div.id = id
+                    if (i==0 || i==1) {
+                        div.style = style + String(p) + "px; font-weight:bold; font-size:100%"
+                    }
+                    else {
+                        div.style = style + String(p) + "px; font-size:90%"
+                    }
+
+                    document.body.appendChild(div)
+                    $("#"+id).html(e[i])
+                    p += 18
+                }
+                l += 222
+            }
+        }
+        )
+    }
+
+    update()
+
+    </script>
+
+</body>
+
+</html>
